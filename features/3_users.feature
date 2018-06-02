@@ -26,6 +26,7 @@ Feature: Users
     """
     Then the response status code should be 201
     And the JSON node "id" should exist
+    And I save it into "BILMO_USER_ID"
     And the JSON node "username" should exist
     And the JSON node "emailAddress" should exist
     And the JSON node "password" should not exist
@@ -90,3 +91,38 @@ Feature: Users
     And I send a "get" request to "/users"
     Then the response status code should be 200
     And the JSON node "hydra:totalItems" should be equal to 2
+
+  # ------------------------------
+    
+  Scenario: Get my User
+    
+    When I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I add "accept" header equal to "application/ld+json"
+    And I send a "get" request to "/users/<<BILMO_USER_ID>>"
+    Then the response status code should be 200
+
+  # ------------------------------
+    
+  Scenario: User deletion
+    
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "post" request to "/users" with body:
+    """
+    {
+      "username": "User3",
+      "emailAddress": "user3@gmail.com",
+      "plainPassword": "123",
+      "plainPasswordConfirm": "123"
+    }
+    """
+    And the JSON node "id" should exist
+    And I save it into "USER3_ID"
+    
+    When I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I send a "delete" request to "/users/<<USER3_ID>>"
+    Then the response status code should be 404
+
+    When I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "delete" request to "/users/<<USER3_ID>>"
+    Then the response status code should be 204

@@ -4,6 +4,7 @@ namespace App\Security\Voter;
 
 use App\Entity\App;
 use App\Entity\Permission;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -12,6 +13,10 @@ class UserVoter extends Voter
   protected function supports($attribute, $subject): bool
   {
     if( in_array($attribute, [Permission::POST_USERS, Permission::LIST_USERS]) ) {
+      return true;
+    }
+    
+    if( in_array($attribute, [Permission::GET_USERS, Permission::DELETE_USERS]) && $subject instanceof User) {
       return true;
     }
     
@@ -28,6 +33,14 @@ class UserVoter extends Voter
       case Permission::LIST_USERS:
         return $this->canList($token->getUser());
         break;
+        
+      case Permission::GET_USERS:
+        return $this->canGet($token->getUser());
+        break;
+        
+      case Permission::DELETE_USERS:
+        return $this->canDelete($token->getUser(), $subject);
+        break;
     }
     
     return false;
@@ -41,5 +54,18 @@ class UserVoter extends Voter
   private function canList(App $app): bool
   {
     return $app->hasPermission(Permission::LIST_USERS);
+  }
+  
+  private function canGet(App $app): bool
+  {
+    return $app->hasPermission(Permission::GET_USERS);
+  }
+  
+  private function canDelete(App $app, User $user): bool
+  {
+    return
+      $app->hasPermission(Permission::DELETE_USERS) &&
+      $app->getUsers()->contains($user)
+    ;
   }
 }

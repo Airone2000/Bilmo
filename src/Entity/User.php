@@ -18,7 +18,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @UniqueEntity(fields={"username", "app"}, groups={"post_users"})
  * @UniqueEntity(fields={"emailAddress", "app"}, groups={"post_users"})
  * @ApiResource(
- *   itemOperations={"GET", "PUT", "DELETE"},
+ *   itemOperations={
+ *      "GET"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::GET_USERS'), object)",
+ *          "normalization_context"={"groups"={"get_users"}}
+ *      },
+ *      "DELETE"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::DELETE_USERS'), object)",
+ *      }
+ *   },
  *   collectionOperations={
  *      "GET"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::LIST_USERS'))",
