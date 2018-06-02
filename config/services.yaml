@@ -25,6 +25,12 @@ services:
         tags: ['controller.service_arguments']
 
 
+    # Decorators
+    App\Swagger\SwaggerDecorator:
+        decorates: 'api_platform.swagger.normalizer.documentation'
+        arguments: [ '@App\Swagger\SwaggerDecorator.inner' ]
+        autoconfigure: false
+
     # Listeners
     app_listener:
         class: App\Listener\AppListener
