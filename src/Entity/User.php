@@ -20,7 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *   itemOperations={"GET", "PUT", "DELETE"},
  *   collectionOperations={
- *      "GET",
+ *      "GET"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::LIST_USERS'))",
+ *          "normalization_context"={"groups"={"list_users"}}
+ *      },
  *      "POST"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_USERS'))",
  *          "denormalization_context"={"groups"={"post_users"}},
@@ -38,7 +41,7 @@ class User
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="NONE")
    * @ORM\Column(type="string", length=50)
-   * @Groups({"get_users"})
+   * @Groups({"get_users", "list_users"})
    */
   private $id;
   
@@ -52,7 +55,7 @@ class User
    * @var null|string
    *
    * @ORM\Column(type="string", length=100)
-   * @Groups({"post_users", "get_users"})
+   * @Groups({"post_users", "get_users", "list_users"})
    * @Assert\NotBlank(groups={"post_users"})
    * @Assert\Length(max="100", min="3", groups={"post_users"})
    */
@@ -62,7 +65,7 @@ class User
    * @var null|string
    *
    * @ORM\Column(type="string", length=255)
-   * @Groups({"post_users", "get_users"})
+   * @Groups({"post_users", "get_users", "list_users"})
    * @Assert\NotBlank(groups={"post_users"})
    * @Assert\Email(groups={"post_users"})
    * @Assert\Length(max="255", groups={"post_users"})
@@ -96,7 +99,7 @@ class User
    *
    * @ORM\Column(type="datetime")
    * @Gedmo\Timestampable(on="create")
-   * @Groups({"get_users"})
+   * @Groups({"get_users", "list_users"})
    */
   private $createdAt;
   
@@ -105,7 +108,7 @@ class User
    *
    * @ORM\Column(type="datetime")
    * @Gedmo\Timestampable(on="update")
-   * @Groups({"get_users"})
+   * @Groups({"get_users", "list_users"})
    */
   private $updatedAt;
   

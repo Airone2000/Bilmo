@@ -45,7 +45,13 @@ services:
             - { name: doctrine.orm.entity_listener, entity_manager: custom }
 
     user_listener:
-            class: App\Listener\UserListener
-            tags:
-                - { name: doctrine.orm.entity_listener }
-                - { name: doctrine.orm.entity_listener, entity_manager: custom }
+        class: App\Listener\UserListener
+        tags:
+            - { name: doctrine.orm.entity_listener }
+            - { name: doctrine.orm.entity_listener, entity_manager: custom }
+
+    # Doctrine extensions
+    App\Doctrine\Extension\User\ListUsersExtension:
+        tags:
+            - { name: api_platform.doctrine.orm.query_extension.collection, priority: 9 }
+            - { name: api_platform.doctrine.orm.query_extension.item }

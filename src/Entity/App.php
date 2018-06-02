@@ -23,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "normalization_context"={"groups"={"apps_list"}}
  *      },
  *      "POST"={
- *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_APPS'))"
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_APPS'))",
+ *          "normalization_context"={"groups"={"apps_get"}}
  *      }
  *   },
  *   itemOperations={

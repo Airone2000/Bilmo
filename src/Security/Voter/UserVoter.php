@@ -11,7 +11,7 @@ class UserVoter extends Voter
 {
   protected function supports($attribute, $subject): bool
   {
-    if( in_array($attribute, [Permission::POST_USERS]) ) {
+    if( in_array($attribute, [Permission::POST_USERS, Permission::LIST_USERS]) ) {
       return true;
     }
     
@@ -24,6 +24,10 @@ class UserVoter extends Voter
       case Permission::POST_USERS:
         return $this->canPost($token->getUser());
         break;
+        
+      case Permission::LIST_USERS:
+        return $this->canList($token->getUser());
+        break;
     }
     
     return false;
@@ -32,5 +36,10 @@ class UserVoter extends Voter
   private function canPost(App $app): bool
   {
     return $app->hasPermission(Permission::POST_USERS);
+  }
+  
+  private function canList(App $app): bool
+  {
+    return $app->hasPermission(Permission::LIST_USERS);
   }
 }

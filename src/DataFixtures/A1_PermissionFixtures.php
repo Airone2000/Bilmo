@@ -16,7 +16,8 @@ class A1_PermissionFixtures extends Fixture
       [Permission::GET_APPS, 'Retrieves a App resource.'],
       [Permission::DELETE_APPS, 'Removes the App resource.'],
       
-      [Permission::POST_USERS, 'Creates a User resource.']
+      [Permission::POST_USERS, 'Creates a User resource.'],
+      [Permission::LIST_USERS, 'Retrieves the collection of User resources.']
     ];
     
     foreach ($permissions as $permissionData) {
