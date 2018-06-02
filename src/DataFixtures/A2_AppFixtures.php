@@ -23,7 +23,8 @@ class A2_AppFixtures extends Fixture
     ;
     
     $permissions = $manager->getRepository(Permission::class)->findBy(['id' => [
-      Permission::LIST_APPS, Permission::POST_APPS, Permission::GET_APPS, Permission::DELETE_APPS
+      Permission::LIST_APPS, Permission::POST_APPS, Permission::GET_APPS, Permission::DELETE_APPS,
+      Permission::POST_USERS
     ]]);
     
     $permissions = new ArrayCollection($permissions);

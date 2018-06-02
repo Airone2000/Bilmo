@@ -30,7 +30,9 @@ class Permission
     LIST_APPS = 'list_apps',
     POST_APPS = 'post_apps',
     GET_APPS = 'get_apps',
-    DELETE_APPS = 'delete_apps'
+    DELETE_APPS = 'delete_apps',
+  
+    POST_USERS = 'post_users'
   ;
   
   /**

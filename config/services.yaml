@@ -25,6 +25,12 @@ services:
         tags: ['controller.service_arguments']
 
 
+    # Services
+    Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder:
+        class: Symfony\Component\Security\Core\Encoder\BCryptPasswordEncoder
+        arguments:
+            $cost: 12
+
     # Decorators
     App\Swagger\SwaggerDecorator:
         decorates: 'api_platform.swagger.normalizer.documentation'
@@ -37,3 +43,9 @@ services:
         tags:
             - { name: doctrine.orm.entity_listener }
             - { name: doctrine.orm.entity_listener, entity_manager: custom }
+
+    user_listener:
+            class: App\Listener\UserListener
+            tags:
+                - { name: doctrine.orm.entity_listener }
+                - { name: doctrine.orm.entity_listener, entity_manager: custom }
