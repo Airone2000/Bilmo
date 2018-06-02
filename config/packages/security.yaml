@@ -1,18 +1,45 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\App: bcrypt
+
+    role_hierarchy:
+        ROLE_CONSUMER: ROLE_USER
+        ROLE_MANAGER: ROLE_CONSUMER
+
     providers:
-        in_memory: { memory: ~ }
+        bilmo_storage:
+            entity:
+                class: App\Entity\App
+                property: id
+
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+
+        doc:
+            pattern: ^(/(docs)?)$
+            anonymous: true
             security: false
+
+        login:
+            pattern: ^/authentication
+            stateless: true
+            anonymous: true
+            provider: bilmo_storage
+            json_login:
+                check_path: /authentication
+                username_path: app_id
+                password_path: app_secret
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+
         main:
-            anonymous: ~
+            pattern:   ^/
+            stateless: true
+            anonymous: true
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+                provider: bilmo_storage
 
-            # activate different ways to authenticate
-
-            # http_basic: ~
-            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # https://symfony.com/doc/current/security/form_login_setup.html
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
