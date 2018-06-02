@@ -23,7 +23,6 @@ final class SwaggerDecorator implements NormalizerInterface
     unset($docs['paths']['/permissions']);
     unset($docs['paths']['/permissions/{id}']);
     
-    
     return $docs;
   }
   
