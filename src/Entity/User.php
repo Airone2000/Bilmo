@@ -9,14 +9,15 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity
  * @ORM\EntityListeners("App\Listener\UserListener")
  * @ORM\Table(name="user")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt")
- * @UniqueEntity(fields={"username", "app"}, groups={"post_users"})
- * @UniqueEntity(fields={"emailAddress", "app"}, groups={"post_users"})
+ * @UniqueEntity(fields={"username", "app"}, groups={"post_users", "put_users"})
+ * @UniqueEntity(fields={"emailAddress", "app"}, groups={"post_users", "put_users"})
  * @ApiResource(
  *   itemOperations={
  *      "GET"={
@@ -25,6 +26,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      },
  *      "DELETE"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::DELETE_USERS'), object)",
+ *      },
+ *      "PUT"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::PUT_USERS'), object)",
+ *          "denormalization_context"={"groups"={"put_users"}},
+ *          "validation_groups"={"put_users"},
+ *          "normalization_context"={"groups"={"get_users"}}
  *      }
  *   },
  *   collectionOperations={
@@ -63,9 +70,9 @@ class User
    * @var null|string
    *
    * @ORM\Column(type="string", length=100)
-   * @Groups({"post_users", "get_users", "list_users"})
-   * @Assert\NotBlank(groups={"post_users"})
-   * @Assert\Length(max="100", min="3", groups={"post_users"})
+   * @Groups({"post_users", "get_users", "list_users", "put_users"})
+   * @Assert\NotBlank(groups={"post_users", "put_users"})
+   * @Assert\Length(max="100", min="3", groups={"post_users", "put_users"})
    */
   private $username;
   
@@ -73,10 +80,10 @@ class User
    * @var null|string
    *
    * @ORM\Column(type="string", length=255)
-   * @Groups({"post_users", "get_users", "list_users"})
-   * @Assert\NotBlank(groups={"post_users"})
-   * @Assert\Email(groups={"post_users"})
-   * @Assert\Length(max="255", groups={"post_users"})
+   * @Groups({"post_users", "get_users", "list_users", "put_users"})
+   * @Assert\NotBlank(groups={"post_users", "put_users"})
+   * @Assert\Email(groups={"post_users", "put_users"})
+   * @Assert\Length(max="255", groups={"post_users", "put_users"})
    */
   private $emailAddress;
   
@@ -89,14 +96,14 @@ class User
   
   /**
    * @var null|string
-   * @Groups({"post_users"})
+   * @Groups({"post_users", "put_users"})
    * @Assert\NotBlank(groups={"post_users"})
    */
   private $plainPassword;
   
   /**
    * @var null|string
-   * @Groups({"post_users"})
+   * @Groups({"post_users", "put_users"})
    * @Assert\NotBlank(groups={"post_users"})
    * @Assert\EqualTo(propertyPath="plainPassword", groups={"post_users"})
    */
@@ -313,6 +320,29 @@ class User
   {
     $this->deletedAt = $deletedAt;
     return $this;
+  }
+  
+  /**
+   * @Assert\Callback(groups={"put_users"})
+   * @param \Symfony\Component\Validator\Context\ExecutionContextInterface $context
+   */
+  public function validPasswordChange(ExecutionContextInterface $context): void
+  {
+    if(!is_null($this->plainPassword)) {
+      
+      if(is_null($this->plainPasswordConfirm)) {
+        $context->buildViolation('Missing plainPasswordConfirm')->addViolation();
+        return;
+      }
+      
+      if($this->plainPassword !== $this->plainPasswordConfirm) {
+        $context->buildViolation('Password mismatched')->addViolation();
+        return;
+      }
+    }
+    
+    // Hack to trigger preUpdate event
+    $this->setUpdatedAt(new \DateTime());
   }
   
 }

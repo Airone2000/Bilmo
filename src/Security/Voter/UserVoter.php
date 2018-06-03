@@ -16,7 +16,7 @@ class UserVoter extends Voter
       return true;
     }
     
-    if( in_array($attribute, [Permission::GET_USERS, Permission::DELETE_USERS]) && $subject instanceof User) {
+    if( in_array($attribute, [Permission::GET_USERS, Permission::DELETE_USERS, Permission::PUT_USERS]) && $subject instanceof User) {
       return true;
     }
     
@@ -40,6 +40,10 @@ class UserVoter extends Voter
         
       case Permission::DELETE_USERS:
         return $this->canDelete($token->getUser(), $subject);
+        break;
+        
+      case Permission::PUT_USERS:
+        return $this->canPut($token->getUser(), $subject);
         break;
     }
     
@@ -65,6 +69,14 @@ class UserVoter extends Voter
   {
     return
       $app->hasPermission(Permission::DELETE_USERS) &&
+      $app->getUsers()->contains($user)
+    ;
+  }
+  
+  private function canPut(App $app, User $user): bool
+  {
+    return
+      $app->hasPermission(Permission::PUT_USERS) &&
       $app->getUsers()->contains($user)
     ;
   }

@@ -19,7 +19,8 @@ class A1_PermissionFixtures extends Fixture
       [Permission::POST_USERS, 'Creates a User resource.'],
       [Permission::LIST_USERS, 'Retrieves the collection of User resources.'],
       [Permission::GET_USERS, 'Retrieves a User resource.'],
-      [Permission::DELETE_USERS, 'Removes the User resource.']
+      [Permission::DELETE_USERS, 'Removes the User resource.'],
+      [Permission::PUT_USERS, 'Replaces the User resource.']
     ];
     
     foreach ($permissions as $permissionData) {

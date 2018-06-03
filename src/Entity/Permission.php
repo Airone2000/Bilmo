@@ -35,7 +35,8 @@ class Permission
     POST_USERS = 'post_users',
     LIST_USERS = 'list_users',
     GET_USERS = 'get_users',
-    DELETE_USERS = 'delete_users'
+    DELETE_USERS = 'delete_users',
+    PUT_USERS = 'put_users'
   ;
   
   /**

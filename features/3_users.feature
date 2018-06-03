@@ -126,3 +126,42 @@ Feature: Users
     When I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
     And I send a "delete" request to "/users/<<USER3_ID>>"
     Then the response status code should be 204
+
+  # ------------------------------
+
+  Scenario: Put an user
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "post" request to "/users" with body:
+    """
+    {
+      "username": "User4",
+      "emailAddress": "user4@gmail.com",
+      "plainPassword": "123",
+      "plainPasswordConfirm": "123"
+    }
+    """
+    And the JSON node "id" should exist
+    And I save it into "USER4_ID"
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I send a "put" request to "users/<<USER4_ID>>" with body:
+    """
+    {
+      "username": "USER444"
+    }
+    """
+    Then the response status code should be 404
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "put" request to "users/<<USER4_ID>>" with body:
+    """
+    {
+      "username": "USER444"
+    }
+    """
+    Then the response status code should be 200
+    And the JSON node "username" should be equal to "USER444"
