@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -63,10 +65,16 @@ class Category
   /**
    * @var null|\App\Entity\Manufacturer
    * @ORM\ManyToOne(targetEntity="App\Entity\Manufacturer", inversedBy="categories")
-   * @Groups({"post_categories", "put_categories"})
+   * @Groups({"post_categories", "put_categories", "get_categories"})
    * @Assert\NotNull(groups={"post_categories", "put_categories"})
    */
   private $manufacturer;
+  
+  /**
+   * @var Collection
+   * @ORM\ManyToMany(targetEntity="App\Entity\Product", mappedBy="categories")
+   */
+  private $products;
   
   /**
    * Category constructor.
@@ -74,6 +82,7 @@ class Category
   function __construct()
   {
     $this->id = Uuid::uuid4()->toString();
+    $this->products = new ArrayCollection();
   }
   
   /**
@@ -127,6 +136,24 @@ class Category
   public function setManufacturer(Manufacturer $manufacturer): self
   {
     $this->manufacturer = $manufacturer;
+    return $this;
+  }
+  
+  /**
+   * @return Collection
+   */
+  public function getProducts(): Collection
+  {
+    return $this->products;
+  }
+  
+  /**
+   * @param Collection $products
+   * @return Category
+   */
+  public function setProducts(Collection $products): Category
+  {
+    $this->products = $products;
     return $this;
   }
   

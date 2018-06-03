@@ -67,16 +67,23 @@ class Manufacturer
   private $name;
   
   /**
-   * @var \Doctrine\Common\Collections\Collection
+   * @var Collection
    * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="manufacturer")
    * @Groups({"get_manufacturers"})
    */
   private $categories;
   
+  /**
+   * @var Collection
+   * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="manufacturer")
+   */
+  private $products;
+  
   function __construct()
   {
     $this->id = Uuid::uuid4()->toString();
     $this->categories = new ArrayCollection();
+    $this->products = new ArrayCollection();
   }
   
   /**
@@ -116,7 +123,7 @@ class Manufacturer
   }
   
   /**
-   * @return \Doctrine\Common\Collections\Collection
+   * @return Collection
    */
   public function getCategories(): Collection
   {
@@ -124,7 +131,7 @@ class Manufacturer
   }
   
   /**
-   * @param \Doctrine\Common\Collections\Collection $categories
+   * @param Collection $categories
    * @return Manufacturer
    */
   public function setCategories(Collection $categories): Manufacturer
@@ -132,6 +139,25 @@ class Manufacturer
     $this->categories = $categories;
     return $this;
   }
+  
+  /**
+   * @return Collection
+   */
+  public function getProducts(): Collection
+  {
+    return $this->products;
+  }
+  
+  /**
+   * @param Collection $products
+   * @return Manufacturer
+   */
+  public function setProducts(Collection $products): Manufacturer
+  {
+    $this->products = $products;
+    return $this;
+  }
+  
   
   
   

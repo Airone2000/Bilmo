@@ -29,10 +29,15 @@ class A1_PermissionFixtures extends Fixture
       [Permission::DELETE_MANUFACTURERS, 'Removes the Manufacturer resource.'],
       
       [Permission::POST_CATEGORIES, 'Creates a Category resource.'],
-      [Permission::LIST_CATEGORIES, 'Retrieves the collection of Category resources.'],
       [Permission::GET_CATEGORIES, 'Retrieves a Category resource.'],
       [Permission::PUT_CATEGORIES, 'Replaces the Category resource.'],
-      [Permission::DELETE_CATEGORIES, 'Removes the Category resource.']
+      [Permission::DELETE_CATEGORIES, 'Removes the Category resource.'],
+      
+      [Permission::POST_PRODUCTS, 'Creates a Product resource.'],
+      [Permission::LIST_PRODUCTS, 'Retrieves the collection of Product resources.'],
+      [Permission::GET_PRODUCTS, 'Retrieves a Product resource.'],
+      [Permission::PUT_PRODUCTS, 'Replaces the Product resource.'],
+      [Permission::DELETE_PRODUCTS, 'Removes the Product resource.']
     ];
     
     foreach ($permissions as $permissionData) {
