@@ -16,7 +16,7 @@ class ManufacturerVoter extends Voter
       return true;
     }
     
-    if( in_array($attribute, [Permission::GET_MANUFACTURERS, Permission::PUT_MANUFACTURERS, Permission::DELETE_MANUFACTURERS]) && $attribute instanceof Manufacturer)
+    if( in_array($attribute, [Permission::GET_MANUFACTURERS, Permission::PUT_MANUFACTURERS, Permission::DELETE_MANUFACTURERS]) && $subject instanceof Manufacturer)
     {
       return true;
     }

@@ -16,10 +16,19 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ApiResource(
  *   collectionOperations={
  *      "GET"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::LIST_MANUFACTURERS'))",
+ *          "normalization_context"={"groups"={"list_manufacturers"}}
  *      },
  *      "POST"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_MANUFACTURERS'))",
- *          "validation_groups"={"post_manufacturers"}
+ *          "validation_groups"={"post_manufacturers"},
+ *          "normalization_context"={"groups"={"get_manufacturers"}}
+ *      }
+ *   },
+ *   itemOperations={
+ *      "GET"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::GET_MANUFACTURERS'), object)",
+ *          "normalization_context"={"groups"={"get_manufacturers"}}
  *      }
  *   }
  * )
@@ -31,13 +40,14 @@ class Manufacturer
    * @ORM\Id
    * @ORM\GeneratedValue(strategy="NONE")
    * @ORM\Column(type="string", length=50)
+   * @Groups({"list_manufacturers", "get_manufacturers"})
    */
   private $id;
   
   /**
    * @var null|string
    * @ORM\Column(type="string", length=128)
-   * @Groups({"post_manufacturers"})
+   * @Groups({"post_manufacturers", "list_manufacturers", "get_manufacturers"})
    * @Assert\NotBlank(groups={"post_manufacturers"})
    * @Assert\Length(max="128", groups={"post_manufacturers"})
    */

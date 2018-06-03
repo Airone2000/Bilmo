@@ -23,6 +23,8 @@ Feature: Manufacturers
     }
     """
     Then the response status code should be 201
+    And the JSON node "id" should exist
+    And I save it into "MANUFACTURER_ID"
 
   Scenario: New manufacturer
     as unauthorized App
@@ -62,3 +64,28 @@ Feature: Manufacturers
     Then the response status code should be 400
     And the JSON node "hydra:description" should be equal to "name: This value is already used."
 
+    
+  Scenario: GET manufacturers
+    as authorized app
+    
+    Given I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I add "accept" header equal to "application/json"
+    When I send a "get" request to "/manufacturers"
+    Then the response status code should be 200
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "accept" header equal to "application/json"
+    When I send a "get" request to "/manufacturers"
+    Then the response status code should be 200
+
+  Scenario: GET one manufacturer
+
+    Given I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I add "accept" header equal to "application/json"
+    When I send a "get" request to "/manufacturers/<<MANUFACTURER_ID>>"
+    Then the response status code should be 200
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "accept" header equal to "application/json"
+    When I send a "get" request to "/manufacturers/<<MANUFACTURER_ID>>"
+    Then the response status code should be 200
