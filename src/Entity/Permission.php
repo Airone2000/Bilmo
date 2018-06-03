@@ -36,7 +36,13 @@ class Permission
     LIST_USERS = 'list_users',
     GET_USERS = 'get_users',
     DELETE_USERS = 'delete_users',
-    PUT_USERS = 'put_users'
+    PUT_USERS = 'put_users',
+    
+    POST_MANUFACTURERS = 'post_manufacturers',
+    LIST_MANUFACTURERS = 'list_manufacturers',
+    GET_MANUFACTURERS = 'get_manufacturers',
+    DELETE_MANUFACTURERS = 'delete_manufacturers',
+    PUT_MANUFACTURERS = 'put_manufacturers'
   ;
   
   /**
