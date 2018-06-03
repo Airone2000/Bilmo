@@ -117,3 +117,17 @@ Feature: Manufacturers
     """
     Then the response status code should be 403
 
+  Scenario: Delete a manufacturer
+    as unauthorized
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I send a "delete" request to "/manufacturers/<<MANUFACTURER_ID>>"
+    Then the response status code should be 403
+
+  Scenario: Delete a manufacturer
+    as authorized
+
+    Given I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "delete" request to "/manufacturers/<<MANUFACTURER_ID>>"
+    Then the response status code should be 204
+

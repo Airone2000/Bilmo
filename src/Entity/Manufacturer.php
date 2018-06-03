@@ -36,6 +36,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          "validation_groups"={"put_manufacturers"},
  *          "normalization_context"={"groups"={"get_manufacturers"}},
  *          "denormalization_context"={"groups"={"put_manufacturers"}}
+ *      },
+ *      "DELETE"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::DELETE_MANUFACTURERS'), object)"
  *      }
  *   }
  * )
