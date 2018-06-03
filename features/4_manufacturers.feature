@@ -89,3 +89,31 @@ Feature: Manufacturers
     And I add "accept" header equal to "application/json"
     When I send a "get" request to "/manufacturers/<<MANUFACTURER_ID>>"
     Then the response status code should be 200
+
+  Scenario: Update a manufacturer
+    as authorized
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "put" request to "/manufacturers/<<MANUFACTURER_ID>>" with body:
+    """
+    {
+      "name":"Samsung 2"
+    }
+    """
+    Then the response status code should be 200
+    And the JSON node "name" should be equal to "Samsung 2"
+
+  Scenario: Update a manufacturer
+    as unauthorized app
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I send a "put" request to "/manufacturers/<<MANUFACTURER_ID>>" with body:
+    """
+    {
+      "name":"Samsung 3"
+    }
+    """
+    Then the response status code should be 403
+

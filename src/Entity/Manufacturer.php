@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  * @ORM\Table(name="manufacturer")
- * @UniqueEntity("name", groups={"post_manufacturers"})
+ * @UniqueEntity("name", groups={"post_manufacturers", "put_manufacturers"})
  * @ApiResource(
  *   collectionOperations={
  *      "GET"={
@@ -22,13 +22,20 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "POST"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_MANUFACTURERS'))",
  *          "validation_groups"={"post_manufacturers"},
- *          "normalization_context"={"groups"={"get_manufacturers"}}
+ *          "normalization_context"={"groups"={"get_manufacturers"}},
+ *          "denormalization_context"={"groups"={"post_manufacturers"}}
  *      }
  *   },
  *   itemOperations={
  *      "GET"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::GET_MANUFACTURERS'), object)",
  *          "normalization_context"={"groups"={"get_manufacturers"}}
+ *      },
+ *      "PUT"={
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::PUT_MANUFACTURERS'), object)",
+ *          "validation_groups"={"put_manufacturers"},
+ *          "normalization_context"={"groups"={"get_manufacturers"}},
+ *          "denormalization_context"={"groups"={"put_manufacturers"}}
  *      }
  *   }
  * )
@@ -47,9 +54,9 @@ class Manufacturer
   /**
    * @var null|string
    * @ORM\Column(type="string", length=128)
-   * @Groups({"post_manufacturers", "list_manufacturers", "get_manufacturers"})
+   * @Groups({"post_manufacturers", "list_manufacturers", "get_manufacturers", "put_manufacturers"})
    * @Assert\NotBlank(groups={"post_manufacturers"})
-   * @Assert\Length(max="128", groups={"post_manufacturers"})
+   * @Assert\Length(max="128", groups={"post_manufacturers", "put_manufacturers"})
    */
   private $name;
   
