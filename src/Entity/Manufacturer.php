@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -63,9 +64,16 @@ class Manufacturer
    */
   private $name;
   
+  /**
+   * @var \Doctrine\Common\Collections\Collection
+   * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="manufacturer")
+   */
+  private $categories;
+  
   function __construct()
   {
     $this->id = Uuid::uuid4()->toString();
+    $this->categories = new ArrayCollection();
   }
   
   /**
