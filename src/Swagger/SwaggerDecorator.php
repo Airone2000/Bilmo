@@ -25,6 +25,26 @@ final class SwaggerDecorator implements NormalizerInterface
     
     unset($docs['paths']['/categories']['get']);
     
+    // Adding authentication route
+    $docs['paths']['/authentication'] = [
+      'post' => [
+        'summary' => 'Signin to utilize the API.',
+        'tags' => ['Security'],
+        'parameters' => [
+          [
+            'name' => 'app_id',
+            'in' => 'body',
+            'description' => 'The APP ID you received from Bilmo.'
+          ],
+          [
+            'name' => 'app_secret',
+            'in' => 'body',
+            'description' => 'The APP SECRET you recevied from us.'
+          ]
+        ]
+      ]
+    ];
+    
     
     return $docs;
   }
