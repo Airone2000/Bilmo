@@ -18,6 +18,6 @@ class HttpNotFoundAction extends AbstractController
 {
   function __invoke()
   {
-    throw new NotFoundHttpException();
+    throw new NotFoundHttpException('Not found');
   }
 }

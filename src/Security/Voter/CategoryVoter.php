@@ -3,6 +3,7 @@
 namespace App\Security\Voter;
 
 use App\Entity\App;
+use App\Entity\Category;
 use App\Entity\Permission;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -16,6 +17,10 @@ class CategoryVoter extends Voter
       return true;
     }
     
+    if( in_array($attribute, [Permission::GET_CATEGORIES, Permission::PUT_CATEGORIES, Permission::DELETE_CATEGORIES]) && $subject instanceof Category) {
+      return true;
+    }
+    
     return false;
   }
   
@@ -26,9 +31,36 @@ class CategoryVoter extends Voter
         case Permission::POST_CATEGORIES:
           return $this->canPost($token->getUser());
           break;
+          
+        case Permission::GET_CATEGORIES:
+          return $this->canGet($token->getUser(), $subject);
+          break;
+          
+        case Permission::PUT_CATEGORIES:
+          return $this->canPut($token->getUser(), $subject);
+          break;
+          
+        case Permission::DELETE_CATEGORIES:
+          return $this->canDelete($token->getUser(), $subject);
+          break;
       }
       
       return false;
+  }
+  
+  private function canDelete(App $app, Category $category): bool
+  {
+    return $app->hasPermission(Permission::DELETE_CATEGORIES);
+  }
+  
+  private function canPut(App $app, Category $category): bool
+  {
+    return $app->hasPermission(Permission::PUT_CATEGORIES);
+  }
+  
+  private function canGet(App $app, Category $category): bool
+  {
+    return $app->hasPermission(Permission::GET_CATEGORIES);
   }
   
   private function canPost(App $app): bool

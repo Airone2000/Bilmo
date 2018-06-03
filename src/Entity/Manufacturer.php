@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -67,6 +69,7 @@ class Manufacturer
   /**
    * @var \Doctrine\Common\Collections\Collection
    * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="manufacturer")
+   * @Groups({"get_manufacturers"})
    */
   private $categories;
   
@@ -111,6 +114,25 @@ class Manufacturer
     $this->name = $name;
     return $this;
   }
+  
+  /**
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getCategories(): Collection
+  {
+    return $this->categories;
+  }
+  
+  /**
+   * @param \Doctrine\Common\Collections\Collection $categories
+   * @return Manufacturer
+   */
+  public function setCategories(Collection $categories): Manufacturer
+  {
+    $this->categories = $categories;
+    return $this;
+  }
+  
   
   
 }
