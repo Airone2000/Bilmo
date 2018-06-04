@@ -76,7 +76,7 @@ Feature: BILMO API
     And I send a "delete" request to "/apps/<<JUST_CREATED_APP_ID>>"
     Then the response status code should be 204
 
-  Scenario: Create a manufacturer
+  Scenario: Create a manufacturer (and testing unique constraint)
     When I add "content-type" header equal to "application/json"
     And I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
     And I send a "post" request to "/manufacturers" with body:
@@ -96,6 +96,16 @@ Feature: BILMO API
     Then the response status code should be 201
     And the JSON node "id" should exist
     And I save it into "JUST_CREATED_MANUFACTURER"
+
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "post" request to "/manufacturers" with body:
+    """
+    {
+        "name": "Manufacturer 1"
+    }
+    """
+    Then the response status code should be 400
 
   Scenario: Get manufacturers
     When I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
@@ -316,7 +326,7 @@ Feature: BILMO API
     And I send a "delete" request to "/products/<<PRODUCT_ID>>"
     Then the response status code should be 204
 
-  Scenario: Create three users
+  Scenario: Create users (testing username unicity globally/locally)
     Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
     And I add "content-type" header equal to "application/json"
     When I send a "post" request to "/users" with body:
@@ -346,6 +356,20 @@ Feature: BILMO API
     When I send a "post" request to "/users" with body:
     """
     {
+        "username": "Utilisateur2",
+        "emailAddress": "utilisateur-double@email.com",
+        "plainPassword": "123",
+        "plainPasswordConfirm": "123"
+    }
+    """
+    Then the response status code should be 400
+    And the JSON node "hydra:description" should be equal to "username: This value is already used."
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "post" request to "/users" with body:
+    """
+    {
         "username": "Utilisateur3",
         "emailAddress": "utilisateur3@email.com",
         "plainPassword": "123",
@@ -354,6 +378,19 @@ Feature: BILMO API
     """
     Then the JSON node "id" should exist
     And I save it into "PARTNER_USER_ID"
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "post" request to "/users" with body:
+    """
+    {
+        "username": "Utilisateur3",
+        "emailAddress": "utilisateur3@email.com",
+        "plainPassword": "123",
+        "plainPasswordConfirm": "123"
+    }
+    """
+    Then the response status code should be 201
 
   Scenario: Get users
     Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
@@ -364,7 +401,7 @@ Feature: BILMO API
     Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
     When I send a "get" request to "/users"
     Then the response status code should be 200
-    And the JSON node "hydra:totalItems" should be equal to 0
+    And the JSON node "hydra:totalItems" should be equal to 1
 
   Scenario: Get User
     Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
