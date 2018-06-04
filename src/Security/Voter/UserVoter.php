@@ -35,7 +35,7 @@ class UserVoter extends Voter
         break;
         
       case Permission::GET_USERS:
-        return $this->canGet($token->getUser());
+        return $this->canGet($token->getUser(), $subject);
         break;
         
       case Permission::DELETE_USERS:
@@ -60,9 +60,12 @@ class UserVoter extends Voter
     return $app->hasPermission(Permission::LIST_USERS);
   }
   
-  private function canGet(App $app): bool
+  private function canGet(App $app, User $user): bool
   {
-    return $app->hasPermission(Permission::GET_USERS);
+    return
+      $app->hasPermission(Permission::GET_USERS) &&
+      $app->getUsers()->contains($user)
+    ;
   }
   
   private function canDelete(App $app, User $user): bool

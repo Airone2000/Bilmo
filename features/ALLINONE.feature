@@ -315,3 +315,91 @@ Feature: BILMO API
     Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
     And I send a "delete" request to "/products/<<PRODUCT_ID>>"
     Then the response status code should be 204
+
+  Scenario: Create three users
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "post" request to "/users" with body:
+    """
+    {
+        "username": "Utilisateur1",
+        "emailAddress": "utilisateur1@email.com",
+        "plainPassword": "123",
+        "plainPasswordConfirm": "123"
+    }
+    """
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "post" request to "/users" with body:
+    """
+    {
+        "username": "Utilisateur2",
+        "emailAddress": "utilisateur2@email.com",
+        "plainPassword": "123",
+        "plainPasswordConfirm": "123"
+    }
+    """
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "post" request to "/users" with body:
+    """
+    {
+        "username": "Utilisateur3",
+        "emailAddress": "utilisateur3@email.com",
+        "plainPassword": "123",
+        "plainPasswordConfirm": "123"
+    }
+    """
+    Then the JSON node "id" should exist
+    And I save it into "PARTNER_USER_ID"
+
+  Scenario: Get users
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    When I send a "get" request to "/users"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 3
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    When I send a "get" request to "/users"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 0
+
+  Scenario: Get User
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    When I send a "get" request to "/users/<<PARTNER_USER_ID>>"
+    Then the response status code should be 404
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    When I send a "get" request to "/users/<<PARTNER_USER_ID>>"
+    Then the response status code should be 200
+
+  Scenario: Update an User
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "put" request to "/users/<<PARTNER_USER_ID>>" with body:
+    """
+    {
+        "username": "Utilisateur3 MODIFIED"
+    }
+    """
+    Then the response status code should be 200
+    And the JSON node "username" should be equal to "Utilisateur3 MODIFIED"
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I add "content-type" header equal to "application/json"
+    When I send a "put" request to "/users/<<PARTNER_USER_ID>>" with body:
+    """
+    {}
+    """
+    Then the response status code should be 404
+
+  Scenario: Delete an user
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "delete" request to "/users/<<PARTNER_USER_ID>>"
+    Then the response status code should be 404
+
+    Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
+    And I send a "delete" request to "/users/<<PARTNER_USER_ID>>"
+    Then the response status code should be 204
