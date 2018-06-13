@@ -23,6 +23,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Permission
 {
+  /**
+   * List of available permissions
+   */
+  const
+    LIST_APPS = 'list_apps',
+    POST_APPS = 'post_apps',
+    GET_APPS = 'get_apps',
+    DELETE_APPS = 'delete_apps'
+  ;
   
   /**
    * @var null|string
