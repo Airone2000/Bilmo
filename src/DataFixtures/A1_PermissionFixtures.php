@@ -25,8 +25,19 @@ class A1_PermissionFixtures extends Fixture
       [Permission::POST_MANUFACTURERS, 'Creates a Manufacturer resource.'],
       [Permission::LIST_MANUFACTURERS, 'Retrieves the collection of Manufacturer resources.'],
       [Permission::GET_MANUFACTURERS, 'Retrieves a Manufacturer resource.'],
-      [Permission::PUT_MANUFACTURERS, 'Removes the Manufacturer resource.'],
-      [Permission::DELETE_MANUFACTURERS, 'Replaces the Manufacturer resource.']
+      [Permission::PUT_MANUFACTURERS, 'Replaces the Manufacturer resource.'],
+      [Permission::DELETE_MANUFACTURERS, 'Removes the Manufacturer resource.'],
+      
+      [Permission::POST_CATEGORIES, 'Creates a Category resource.'],
+      [Permission::GET_CATEGORIES, 'Retrieves a Category resource.'],
+      [Permission::PUT_CATEGORIES, 'Replaces the Category resource.'],
+      [Permission::DELETE_CATEGORIES, 'Removes the Category resource.'],
+      
+      [Permission::POST_PRODUCTS, 'Creates a Product resource.'],
+      [Permission::LIST_PRODUCTS, 'Retrieves the collection of Product resources.'],
+      [Permission::GET_PRODUCTS, 'Retrieves a Product resource.'],
+      [Permission::PUT_PRODUCTS, 'Replaces the Product resource.'],
+      [Permission::DELETE_PRODUCTS, 'Removes the Product resource.']
     ];
     
     foreach ($permissions as $permissionData) {

@@ -42,7 +42,18 @@ class Permission
     LIST_MANUFACTURERS = 'list_manufacturers',
     GET_MANUFACTURERS = 'get_manufacturers',
     DELETE_MANUFACTURERS = 'delete_manufacturers',
-    PUT_MANUFACTURERS = 'put_manufacturers'
+    PUT_MANUFACTURERS = 'put_manufacturers',
+  
+    POST_CATEGORIES = 'post_categories',
+    GET_CATEGORIES = 'get_categories',
+    PUT_CATEGORIES = 'put_categories',
+    DELETE_CATEGORIES = 'delete_categories',
+  
+    POST_PRODUCTS = 'post_products',
+    LIST_PRODUCTS = 'list_products',
+    GET_PRODUCTS = 'get_products',
+    PUT_PRODUCTS = 'put_products',
+    DELETE_PRODUCTS = 'delete_products'
   ;
   
   /**

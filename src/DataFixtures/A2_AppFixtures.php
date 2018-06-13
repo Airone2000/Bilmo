@@ -30,7 +30,9 @@ class A2_AppFixtures extends Fixture
     $permissions = $manager->getRepository(Permission::class)->findBy(['id' => [
       Permission::LIST_APPS, Permission::POST_APPS, Permission::GET_APPS, Permission::DELETE_APPS,
       Permission::POST_USERS, Permission::LIST_USERS, Permission::GET_USERS, Permission::DELETE_USERS, Permission::PUT_USERS,
-      Permission::LIST_MANUFACTURERS, Permission::POST_MANUFACTURERS, Permission::GET_MANUFACTURERS, Permission::PUT_MANUFACTURERS, Permission::DELETE_MANUFACTURERS
+      Permission::LIST_MANUFACTURERS, Permission::POST_MANUFACTURERS, Permission::GET_MANUFACTURERS, Permission::PUT_MANUFACTURERS, Permission::DELETE_MANUFACTURERS,
+      Permission::POST_CATEGORIES, Permission::GET_CATEGORIES, Permission::PUT_CATEGORIES, Permission::DELETE_CATEGORIES,
+      Permission::POST_PRODUCTS, Permission::LIST_PRODUCTS, Permission::GET_PRODUCTS, Permission::PUT_PRODUCTS, Permission::DELETE_PRODUCTS
     ]]);
     
     $permissions = new ArrayCollection($permissions);
@@ -50,7 +52,9 @@ class A2_AppFixtures extends Fixture
   
     $permissions = $manager->getRepository(Permission::class)->findBy(['id' => [
       Permission::POST_USERS, Permission::LIST_USERS, Permission::GET_USERS, Permission::DELETE_USERS, Permission::PUT_USERS,
-      Permission::GET_MANUFACTURERS, Permission::LIST_MANUFACTURERS
+      Permission::GET_MANUFACTURERS, Permission::LIST_MANUFACTURERS,
+      Permission::GET_CATEGORIES,
+      Permission::LIST_PRODUCTS, Permission::GET_PRODUCTS
     ]]);
   
     $permissions = new ArrayCollection($permissions);

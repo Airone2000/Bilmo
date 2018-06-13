@@ -24,7 +24,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      },
  *      "POST"={
  *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_APPS'))",
- *          "normalization_context"={"groups"={"apps_get"}}
+ *          "normalization_context"={"groups"={"apps_get"}},
+ *          "denormalization_context"={"groups"={"apps_post"}}
  *      }
  *   },
  *   itemOperations={

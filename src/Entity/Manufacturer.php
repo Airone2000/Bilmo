@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -63,9 +66,24 @@ class Manufacturer
    */
   private $name;
   
+  /**
+   * @var Collection
+   * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="manufacturer")
+   * @Groups({"get_manufacturers"})
+   */
+  private $categories;
+  
+  /**
+   * @var Collection
+   * @ORM\OneToMany(targetEntity="App\Entity\Product", mappedBy="manufacturer")
+   */
+  private $products;
+  
   function __construct()
   {
     $this->id = Uuid::uuid4()->toString();
+    $this->categories = new ArrayCollection();
+    $this->products = new ArrayCollection();
   }
   
   /**
@@ -103,6 +121,44 @@ class Manufacturer
     $this->name = $name;
     return $this;
   }
+  
+  /**
+   * @return Collection
+   */
+  public function getCategories(): Collection
+  {
+    return $this->categories;
+  }
+  
+  /**
+   * @param Collection $categories
+   * @return Manufacturer
+   */
+  public function setCategories(Collection $categories): Manufacturer
+  {
+    $this->categories = $categories;
+    return $this;
+  }
+  
+  /**
+   * @return Collection
+   */
+  public function getProducts(): Collection
+  {
+    return $this->products;
+  }
+  
+  /**
+   * @param Collection $products
+   * @return Manufacturer
+   */
+  public function setProducts(Collection $products): Manufacturer
+  {
+    $this->products = $products;
+    return $this;
+  }
+  
+  
   
   
 }

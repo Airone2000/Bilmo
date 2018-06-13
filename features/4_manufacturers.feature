@@ -131,3 +131,14 @@ Feature: Manufacturers
     And I send a "delete" request to "/manufacturers/<<MANUFACTURER_ID>>"
     Then the response status code should be 204
 
+  Scenario: Create a manufacturer (for testing)
+    When I add "content-type" header equal to "application/json"
+    And I add "authorization" header equal to "Bearer <<AUTH_HEADER>>"
+    And I send a "post" request to "/manufacturers" with body:
+    """
+    {
+      "name":"Apple"
+    }
+    """
+    Then the response status code should be 201
+
