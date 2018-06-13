@@ -9,3 +9,7 @@ if (!isset($_SERVER['APP_ENV'])) {
     }
     (new Dotenv())->load(__DIR__.'/../../.env');
 }
+
+if($_SERVER['APP_ENV'] !== 'test') {
+  throw new \RuntimeException('Switch to the "test" environment to run the test.');
+}
