@@ -217,6 +217,18 @@ class App implements UserInterface
   }
   
   /**
+   * @param \App\Entity\Permission $permission
+   * @return \App\Entity\App
+   */
+  public function addPermission(Permission $permission): self
+  {
+    if(!$this->permissions->contains($permission)) {
+      $this->permissions->add($permission);
+    }
+    return $this;
+  }
+  
+  /**
    * @param string $permissionId
    * @param bool $byCriteria
    * @return bool
