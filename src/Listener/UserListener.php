@@ -61,20 +61,6 @@ class UserListener
     
     # Revalidate user (check UniqueEntity which is based on App)
     $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    $this->validator->validate($user, ['groups' => ['post_users']]);
-    
     
   }
 }
