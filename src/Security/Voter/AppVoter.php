@@ -29,7 +29,7 @@ class AppVoter extends Voter
     
   }
   
-  protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
+  protected function voteOnAttribute($attribute, $subject, TokenInterface $token): bool
   {
     switch ($attribute)
     {
@@ -49,6 +49,8 @@ class AppVoter extends Voter
         return $this->canDelete($token->getUser(), $subject);
         break;
     }
+    
+    return false;
   }
   
   /**

@@ -23,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "normalization_context"={"groups"={"apps_list"}}
  *      },
  *      "POST"={
- *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_APPS'))"
+ *          "access_control"="is_granted(constant('\\App\\Entity\\Permission::POST_APPS'))",
+ *          "normalization_context"={"groups"={"apps_get"}}
  *      }
  *   },
  *   itemOperations={
@@ -91,6 +92,12 @@ class App implements UserInterface
   private $deletedAt;
   
   /**
+   * @var Collection
+   * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="app")
+   */
+  private $users;
+  
+  /**
    * App constructor.
    */
   function __construct()
@@ -99,6 +106,7 @@ class App implements UserInterface
     $this->secret = sha1(uniqid('3"az.]##Y8#[/YbY'));
     $this->roles = ['ROLE_CONSUMER'];
     $this->permissions = new ArrayCollection();
+    $this->users = new ArrayCollection();
   }
   
   /**
@@ -276,6 +284,24 @@ class App implements UserInterface
   public function setDeletedAt(\DateTime $deletedAt): self
   {
     $this->deletedAt = $deletedAt;
+    return $this;
+  }
+  
+  /**
+   * @return \Doctrine\Common\Collections\Collection
+   */
+  public function getUsers(): Collection
+  {
+    return $this->users;
+  }
+  
+  /**
+   * @param \Doctrine\Common\Collections\Collection $users
+   * @return \App\Entity\App
+   */
+  public function setUsers(Collection $users): App
+  {
+    $this->users = $users;
     return $this;
   }
   
