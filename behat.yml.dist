@@ -2,11 +2,21 @@ default:
     suites:
         default:
             contexts:
-                - FeatureContext:
-                    kernel: '@kernel'
+                - FeatureContext: ~
+                - Behat\MinkExtension\Context\MinkContext
+                - Behatch\Context\JsonContext
+                - Behatch\Context\RestContext
+                - rdx\behatvars\BehatVariablesContext
 
     extensions:
+        Behatch\Extension: ~
+        Behat\MinkExtension:
+            base_url: 'http://localhost:8001'
+            sessions:
+                default:
+                    goutte: ~
         Behat\Symfony2Extension:
             kernel:
                 bootstrap: features/bootstrap/bootstrap.php
                 class: App\Kernel
+        rdx\behatvars\BehatVariablesExtension: ~
