@@ -31,7 +31,13 @@ class UserListener
     $this->tokenStorage = $tokenStorage;
     $this->validator = $validator;
   }
-  
+    
+    /**
+     * Called both when persisting/updating an App's user.
+     * Event if the password is side-app encoded, we ensure here it's indeed.
+     *
+     * @param \App\Entity\User $user
+     */
   private function encodePassword(User $user): void
   {
     if(is_null($user->getPlainPassword())) {

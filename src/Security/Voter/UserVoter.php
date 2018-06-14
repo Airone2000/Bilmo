@@ -8,6 +8,15 @@ use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
+/**
+ * Class UserVoter
+ *
+ * @package App\Security\Voter
+ *
+ * This voter ensures that operations on User are authorized based on the App permissions.
+ * It is called when the is_granted() method is called, through ExpressionLanguage, in the
+ * ApiResource annotation.
+ */
 class UserVoter extends Voter
 {
   protected function supports($attribute, $subject): bool

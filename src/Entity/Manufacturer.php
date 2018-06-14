@@ -13,6 +13,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Given products are manufactured by a company, it can be interesting to link them to their manufacturer.
+ * A manufacturer is just an owning relation that give more depth and credibilty to the API.
+ *
+ * A company owns many categories and many products. This way, it's possible to request on both listings to give
+ * a different hierarchical access to the data.
+ *
  * @ORM\Entity
  * @ORM\Table(name="manufacturer")
  * @UniqueEntity("name", groups={"post_manufacturers", "put_manufacturers"})

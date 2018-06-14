@@ -12,6 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
+ * Contrary to what we can think at first sight, this Entity does not represent
+ * a security user, and this, does not implement UserInterface.
+ *
+ * Instead, it objectize a remote User, that is to say, someone who utilized
+ * a partner's App.
+ *
  * @ORM\Entity
  * @ORM\EntityListeners("App\Listener\UserListener")
  * @ORM\Table(name="user")
@@ -325,6 +331,12 @@ class User
   /**
    * @Assert\Callback(groups={"put_users"})
    * @param \Symfony\Component\Validator\Context\ExecutionContextInterface $context
+   *
+   * As the password is not required when updating an user, the EqualTo constraint
+   * applied on Password is not triggered.
+   *
+   * This is why we have are another constraint that check, if plainPassword is not blank,
+   * whether it's equal to plainPasswordConfirm.
    */
   public function validPasswordChange(ExecutionContextInterface $context): void
   {

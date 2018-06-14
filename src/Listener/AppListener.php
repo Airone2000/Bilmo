@@ -18,7 +18,21 @@ class AppListener
   {
     $this->passwordEncoder = $passwordEncoder;
   }
-  
+    
+    /**
+     * @param \App\Entity\App $app
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     *
+     * This method is called as from the ->persist() is called on the manager for
+     * the App entity.
+     *
+     * Due to the ApiPlatform normal use case, things must be proceed in event.
+     *
+     * There we encode the password (as the App has just been registered).
+     *
+     * Then we grant it with basic permissions. Note that we retrieve them with the same EntityManager which is
+     * in charge of persisting the App. This way, the EM knows the Permissions and can build the relation.
+     */
   public function prePersist(App $app, LifecycleEventArgs $args)
   {
     # Encode its secret

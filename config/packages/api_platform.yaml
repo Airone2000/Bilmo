@@ -10,4 +10,5 @@ api_platform:
         paths: ['%kernel.project_dir%/src/Entity']
     title: Bilmo Platform
     version: 1.0.0
-    # Enable the Varnish integration
+
+    # Enable the Varnish integration HERE

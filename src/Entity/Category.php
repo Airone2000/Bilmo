@@ -11,6 +11,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * A category stores many products.
+ * As a manufacturer produces a wide range of product, it's interesting to foresee a way
+ * to keep same separated based on various feature.
+ *
+ * This catorization is up to Bilmo (or authorized user) and is not based on any defined product properties.
+ *
+ * Possible new feature to develop: Using Gedmo/Tree to nest our categories and enhance requesting.
+ *
  * @ORM\Entity
  * @ORM\Table(name="category")
  * @ApiResource(

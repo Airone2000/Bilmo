@@ -10,6 +10,18 @@ use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Class ListUsersExtension
+ *
+ * @package App\Doctrine\Extension\User
+ *
+ * This Doctrine extension ensures that querying on user(s) only retrieves those who belong
+ * to the same current user's App.
+ *
+ * For instance, as Bilmo, querying my users returns only Bilmo's users.
+ *
+ * It applies on both item and collection.
+ */
 class ListUsersExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
   /**

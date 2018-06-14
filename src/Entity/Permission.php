@@ -6,6 +6,11 @@ use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
+ * A permission gives the ability to restrict the user to perform some actions.
+ * At this time, there are as many Permissions as APIs.
+ *
+ * This way, we can granularly control what an App can do with the API.
+ *
  * @ORM\Entity
  * @ORM\Table(name="permission")
  * @ApiResource(

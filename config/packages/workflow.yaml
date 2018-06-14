@@ -1,2 +1,5 @@
+# There is not workflow definitions defined for the moment.
+# This could be interesting, for example, to handle a product status (AVAILABLE, NOT_AVAIALBLE, REFUELING ...)
+# It implies that we create Validator and Enum to make sure what an authorized App send is a valid transition.
 framework:
     workflows: ~

@@ -2,10 +2,6 @@ security:
     encoders:
         App\Entity\App: bcrypt
 
-    role_hierarchy:
-        ROLE_CONSUMER: ROLE_USER
-        ROLE_MANAGER: ROLE_CONSUMER
-
     providers:
         bilmo_storage:
             entity:
@@ -18,11 +14,16 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        # The docs is reachable via / and /docs
+        # and security is disabled.
+        # Up to me, this does not represent a security issue
+        # insofar as Voters do their job perfectly.
         doc:
             pattern: ^(/(docs)?)$
             anonymous: true
             security: false
 
+        # JSON Authentication with custom properties naming.
         login:
             pattern: ^/authentication
             stateless: true

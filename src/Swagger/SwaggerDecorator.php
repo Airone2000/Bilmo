@@ -4,6 +4,18 @@ namespace App\Swagger;
 
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
+/**
+ * Class SwaggerDecorator
+ *
+ * @package App\Swagger
+ *
+ * This decorator demonstrated how to decorate the ApiDoc.
+ *
+ * /!\ Before decorating for hiding, we MUST ensure that hidden operations
+ * result in a 404.
+ *
+ * Otherwise, it represents a potential security issue.
+ */
 final class SwaggerDecorator implements NormalizerInterface
 {
   private $decorated;

@@ -1,5 +1,6 @@
-# Read the documentation: https://symfony.com/doc/current/bundles/StofDoctrineExtensionsBundle/index.html
-# See the official DoctrineExtensions documentation for more details: https://github.com/Atlantic18/DoctrineExtensions/tree/master/doc/
+# Doctrine extensions permits to focus on the main.
+# Softdeletable is usefull to softdelete (and keeping relation)
+# Timestampable keeps track of when the entity has been created/updated
 stof_doctrine_extensions:
     default_locale: en_US
     orm:

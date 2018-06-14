@@ -13,6 +13,16 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * Everyone using the Api must be an App.
+ * Bilmo is an App, its partners are Apps as well.
+ * An App must be given an ID and a SECRET. Those credentials allow the App to consume the Bilmo-API.
+ *
+ * I use an Uuid to avoid predictive ID. I could have defined Uuid as default CUSTOM identifier but
+ * I prefer define it through the Constructor. This way, I do not need to wait for the postPersist to know
+ * an App ID.
+ *
+ * CreatedAt is filled when the entity is persisted. This is a hint to know whether the entity is new.
+ *
  * @ORM\Entity
  * @ORM\EntityListeners("App\Listener\AppListener")
  * @ORM\Table(name="app")
@@ -229,6 +239,13 @@ class App implements UserInterface
   }
   
   /**
+   * ->containsKey fetches all permissions and check whether the given permission exists in it.
+   *
+   * Applying a criteria on collection permits to retrieve the element that match what we desire.
+   * This way, the request is supposed to be fastest (even if it's quick in anyway).
+   *
+   * In other words, Criteria defines the request to fill the Collection.
+   *
    * @param string $permissionId
    * @param bool $byCriteria
    * @return bool

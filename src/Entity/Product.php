@@ -12,6 +12,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Product is the keystone of Bilmo-API.
+ * A product belongs to one Manufacturer and to one or many Categories.
+ *
+ * As for other entities, this is identified by an Uuid that could have been defined as annotation
+ * but once again, I prefer to manually define it in the constructor.
+ *
  * @ORM\Entity
  * @ORM\Table(name="product")
  * @ApiResource(
