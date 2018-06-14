@@ -271,7 +271,9 @@ Feature: BILMO API
         "name": "Samphone 5P",
         "manufacturer": "<<MANUFACTURER_IRI>>",
         "categories": ["<<CATEGORY_IRI>>"],
-        "description": "Good phone!"
+        "description": "Good phone!",
+        "priceMin": 5.99,
+        "priceMax": 7.00
     }
     """
     Then the response status code should be 201
@@ -283,6 +285,26 @@ Feature: BILMO API
     Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
     And I send a "get" request to "/products"
     Then the response status code should be 200
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "get" request to "/products?priceMin[between]=5.90..6"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 1
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "get" request to "/products?priceMin[between]=50..100"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 0
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "get" request to "/products?description=ood"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 1
+
+    Given I add "authorization" header equal to "Bearer <<BILMO_AUTH_HEADER>>"
+    And I send a "get" request to "/products?name=eiofheiorf"
+    Then the response status code should be 200
+    And the JSON node "hydra:totalItems" should be equal to 0
 
     Given I add "authorization" header equal to "Bearer <<PARTNER_AUTH_HEADER>>"
     And I send a "get" request to "/products"
