@@ -265,18 +265,18 @@ class Product
     }
     
     /**
-     * @return mixed
+     * @return float|null
      */
-    public function getPriceMin()
+    public function getPriceMin(): ?float
     {
         return $this->priceMin;
     }
     
     /**
-     * @param mixed $priceMin
-     * @return Product
+     * @param float|null $priceMin
+     * @return \App\Entity\Product
      */
-    public function setPriceMin($priceMin)
+    public function setPriceMin(?float $priceMin): self
     {
         $this->priceMin = $priceMin;
         return $this;
@@ -285,16 +285,16 @@ class Product
     /**
      * @return float|null
      */
-    public function getPriceMax()
+    public function getPriceMax(): ?float
     {
         return $this->priceMax;
     }
     
     /**
      * @param float|null $priceMax
-     * @return Product
+     * @return \App\Entity\Product
      */
-    public function setPriceMax($priceMax)
+    public function setPriceMax(?float $priceMax): self
     {
         $this->priceMax = $priceMax;
         return $this;
